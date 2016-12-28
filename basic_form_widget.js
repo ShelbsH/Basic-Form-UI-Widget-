@@ -50,7 +50,7 @@ $.widget('Shurns.basicForm', {
 
   },
 
-  _appendRows: function () {
+  _renderRows: function () {
     //Each row should append nth elements from the "perColumn" option.
   }
 });
