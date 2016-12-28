@@ -36,14 +36,17 @@ $.widget('Shurns.basicForm', {
 
     if ($.isArray(inputNames) && inputNames.length) {
       $.each(inputNames, function (num, names) {
-        formData += '<label>' + names + ':</label><input type="text">';
+        formData += '<div><label>' + names + ':</label><input type="text"></div>';
       });
     }
 
     this.uiFormBasic.append(formData);
 
+    this._addClass(this.uiFormBasic.find('div'), 'form-default', this._columnToClass());
     this._addClass(this.uiFormBasic.find('label'), 'form-default', 'labels');
     this._addClass(this.uiFormBasic.find('input'), 'form-default');
+
+    return formData;
   },
 
   _setOption: function (key, value) {
