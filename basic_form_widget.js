@@ -1,6 +1,5 @@
 $.widget('Shurns.basicForm', {
-  'use strict'
-  
+
   options: {
     itemNames: [],
     perColumn: 2
