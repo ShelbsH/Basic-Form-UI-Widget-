@@ -15,10 +15,11 @@
     expect(formBasic.basicForm()).toExist();  //Work successful!
   });
 
-  describe('There should be working form options from the widget factory', function () {
+  describe('There should be working form options from the basic form ui widget', function () {
 
     it('should convert values being passed from the "perColumn" property into class columns', function () {
       formBasic.basicForm({
+        itemNames: ['First Name', 'Middle Name', 'Last Name'],
         perColumn: 3
       });
 
