@@ -7,7 +7,7 @@ $.widget('Shurns.basicForm', {
 
   _create: function () {
     var items = this.options.itemNames;
-
+    
     if ($.isArray(items) && items.length) {
       this._createData();
       this._columnToClass();
@@ -29,6 +29,7 @@ $.widget('Shurns.basicForm', {
       storeInputs.push('<div><label>' + names + ':</label><input type="text"></div>');
     });
 
+    //Each row class will append the number of elements based on the "perColumn" option
     while (x < storeInputs.length) {
       formData += '<div class ="rows">' + storeInputs.slice(x, x + columns) + '</div>';
       x += columns;
