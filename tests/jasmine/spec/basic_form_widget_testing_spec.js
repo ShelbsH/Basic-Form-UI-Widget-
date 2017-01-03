@@ -25,10 +25,5 @@
 
       expect(formBasic.find('div')).toHaveClass('four columns');
     });
-
-    it('should have textboxes with named labels attached with them.', function () {
-      //Do something here.
-    });
   });
-
 });
