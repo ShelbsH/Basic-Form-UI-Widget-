@@ -6,13 +6,41 @@ $.widget('Shurns.basicForm', {
   },
 
   _create: function () {
-    this._renderRows();
-    this.element.append(this.uiFormBasic);
+    var items = this.options.itemNames;
+
+    if ($.isArray(items) && items.length) {
+      this._createData();
+      this._columnToClass();
+      this.element.append(this.uiFormBasic);
+    }
+  },
+
+  _createData: function () {
+    var inputNames = this.options.itemNames,
+        columns = this.options.perColumn,
+        formData = '',
+        storeInputs = [],
+        x = 0;
+
+    this.uiFormBasic = $('<div>');
+    this._addClass(this.uiFormBasic, 'form-default');
+    
+    $.each(inputNames, function (num, names) {
+      storeInputs.push('<div><label>' + names + ':</label><input type="text"></div>');
+    });
+
+    while (x < storeInputs.length) {
+      formData += '<div class ="rows">' + storeInputs.slice(x, x + columns) + '</div>';
+      x += columns;
+    }
+
+    this.uiFormBasic.append(formData.split(',').join(''));
   },
 
   _columnToClass: function () {
 
-    var column = this.options.perColumn;
+    var column = this.options.perColumn,
+        uiFormBasic = this.uiFormBasic;
 
     //Four columns per row is the maximum amount of columns to be inserted.
     var cols = {
@@ -22,58 +50,13 @@ $.widget('Shurns.basicForm', {
       4: 'three'
     }
 
-    return cols[column] + ' columns';
-
+    this._addClass(uiFormBasic.find('div.rows').find('div'), 'form-default', cols[column] + ' columns');
+    this._addClass(uiFormBasic.find('label'), 'form-default', 'labels');
+    this._addClass(uiFormBasic.find('input'), 'form-default');
     // ex. this._addClass(this._div, column);
-  },
-
-  _createData: function () {
-    var inputNames = this.options.itemNames,
-        formData = '',
-        storeInputs = [];
-
-    if ($.isArray(inputNames) && inputNames.length) {
-      $.each(inputNames, function (num, names) {
-        storeInputs.push('<div><label>' + names + ':</label><input type="text"></div>');
-      });
-    }
-
-    return storeInputs;
   },
 
   _setOption: function (key, value) {
 
-  },
-
-  _renderRows: function () {
-    //Each row should append nth elements from the "perColumn" option.
-    var columns = this.options.perColumn,
-        htmlInputs = this._createData(),
-        newInputs = [],
-        rows = '',
-        uiForm;
-
-    this.uiFormBasic = $('<div>');
-    this._addClass(this.uiFormBasic, 'form-default');
-
-    uiForm = this.uiFormBasic;
-
-    for (var x = 0; x < htmlInputs.length; x += columns) {
-      newInputs.push(htmlInputs.slice(x, x + columns));
-    }
-    for (var i = 0; i < newInputs.length; i += 1) {
-      rows += '<div class="rows">' + newInputs[i] + '</div>';
-    }
-    this.uiFormBasic.append(rows.split(',').join(''));
-
-    this._addClass(this.uiFormBasic.find('div').find('div'), 'form-default', this._columnToClass());
-    this._addClass(this.uiFormBasic.find('label'), 'form-default', 'labels');
-    this._addClass(this.uiFormBasic.find('input'), 'form-default');
   }
-});
-
-$(document).ready(function () {
-  $('#divTest').basicForm({
-    itemNames: ['First Name', 'Last Name', 'Occupation']
-  });
 });
