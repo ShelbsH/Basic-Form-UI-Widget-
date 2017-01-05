@@ -54,7 +54,6 @@ $.widget('Shurns.basicForm', {
     this._addClass(uiFormBasic.find('div.rows').find('div'), 'form-default', cols[column] + ' columns');
     this._addClass(uiFormBasic.find('label'), 'form-default', 'labels');
     this._addClass(uiFormBasic.find('input'), 'form-default');
-    // ex. this._addClass(this._div, column);
   },
 
   _setOption: function (key, value) {
