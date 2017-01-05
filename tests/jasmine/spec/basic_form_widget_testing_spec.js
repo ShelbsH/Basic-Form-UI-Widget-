@@ -27,8 +27,3 @@ describe('Basic Form Widget', function () {
     });
   });
 });
-      
-    });
-  });
-
-});
