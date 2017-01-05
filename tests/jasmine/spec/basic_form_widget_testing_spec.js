@@ -1,4 +1,4 @@
-﻿describe('Basic Form Widget', function () {
+describe('Basic Form Widget', function () {
 
   var formBasic;
 
@@ -24,14 +24,11 @@
       });
 
       expect(formBasic.find('div')).toHaveClass('four columns');
-<<<<<<< HEAD
     });
   });
 });
-=======
       
     });
   });
 
 });
->>>>>>> deaadb03c87b5aace430098246d8d6458e935f1d
