@@ -26,14 +26,14 @@ describe('Basic Form Widget', function () {
       expect(formBasic.find('div')).toHaveClass('four columns');
     });
 
-    it('needs to match the set of less rows via stretch compared to the previous rows with columns', function() {
+    it('set of last row with less columns compared to previous rows with more columns has to be equal of size', function() {
 
       formBasic.basicForm({
         itemNames: ['First Name', 'Middle Name', 'Last Name', 'Skills', 'City', 'State'],
         perColumn: 4
       });
 
-      expect(formBasic.find('div.row').last()).toHaveClass('six columns');
+      expect(formBasic.find('div').last()).toHaveClass('six columns');
     });
   });
  });
