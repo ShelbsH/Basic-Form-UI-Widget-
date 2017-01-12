@@ -58,7 +58,7 @@ $.widget('Shurns.basicForm', {
       $prevRows = $lastRow.prevAll();
 
       if($lastRow.children().length < $prevRows.children().length) {
-        this._addClass($lastRow.find('div'), 'form-default', cols[$lastRow.length + 1] + ' columns');
+        this._addClass($lastRow.find('div'), 'form-default', cols[$lastRow.children().length] + ' columns');
         this._addClass($lastRow.find('label'), 'form-default', 'labels');
         this._addClass($lastRow.find('input'), 'form-default');
       }
