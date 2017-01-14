@@ -16,6 +16,7 @@ $.widget('Shurns.basicForm', {
   },
 
   _createData: function () {
+    
     var inputNames = this.options.itemNames,
         columns = this.options.perColumn,
         formData = '',
