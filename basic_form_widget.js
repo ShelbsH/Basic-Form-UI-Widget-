@@ -6,6 +6,7 @@ $.widget('Shurns.basicForm', {
   },
 
   _create: function () {
+    
     var items = this.options.itemNames;
 
     if ($.isArray(items) && items.length) {
