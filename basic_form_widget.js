@@ -6,8 +6,9 @@ $.widget('Shurns.basicForm', {
   },
 
   _create: function () {
-    var items = this.options.itemNames;
     
+    var items = this.options.itemNames;
+
     if ($.isArray(items) && items.length) {
       this._createData();
       this._columnToClass();
@@ -16,6 +17,7 @@ $.widget('Shurns.basicForm', {
   },
 
   _createData: function () {
+    
     var inputNames = this.options.itemNames,
         columns = this.options.perColumn,
         formData = '',
@@ -24,12 +26,11 @@ $.widget('Shurns.basicForm', {
 
     this.uiFormBasic = $('<div>');
     this._addClass(this.uiFormBasic, 'form-default');
-    
+
     $.each(inputNames, function (num, names) {
       storeInputs.push('<div><label>' + names + ':</label><input type="text"></div>');
     });
 
-    //Each row class will append the number of elements based on the "perColumn" option
     while (x < storeInputs.length) {
       formData += '<div class ="rows">' + storeInputs.slice(x, x + columns) + '</div>';
       x += columns;
@@ -41,19 +42,25 @@ $.widget('Shurns.basicForm', {
   _columnToClass: function () {
 
     var column = this.options.perColumn,
-        uiFormBasic = this.uiFormBasic;
+        uiFormBasic = this.uiFormBasic.find('div.rows'),
+        $prevRows = uiFormBasic.last().prevAll(),
+        $lastRow = uiFormBasic.last(),
+        cols = {1: 'twelve', 2: 'six', 3: 'four', 4: 'three'},
+        $sizeEl = $lastRow.children().length < $prevRows.children().length ? cols[$lastRow.children().length] : cols[column];    
+    
 
-    //Four columns per row is the maximum amount of columns to be inserted.
-    var cols = {
-      1: 'twelve',
-      2: 'six',
-      3: 'four',
-      4: 'three'
-    }
-
-    this._addClass(uiFormBasic.find('div.rows').find('div'), 'form-default', cols[column] + ' columns');
-    this._addClass(uiFormBasic.find('label'), 'form-default', 'labels');
+    this._addClass(uiFormBasic.find('label'), 'labels');
     this._addClass(uiFormBasic.find('input'), 'form-default');
+    
+    if(uiFormBasic.length > 1) {
+      this._addClass($prevRows.children(), cols[column] + ' columns');
+
+      //Bottom column(s) needs to match the same previous elements via stretch.
+      this._addClass(uiFormBasic.last().children(), $sizeEl + ' columns');
+    }
+    else {
+      this._addClass(uiFormBasic.find('div'), cols[column] + ' columns');
+    }
   },
 
   _setOption: function (key, value) {

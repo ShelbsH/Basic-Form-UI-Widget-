@@ -87,9 +87,6 @@ textarea, select {
    color: #9c9fa3;  
 }
 
-/* Checkbox
------------------------------------------------------*/
-
 /* Button
 -----------------------------------------------------*/
 .form-default .form-buttons {
@@ -110,6 +107,11 @@ textarea, select {
     padding: 0 25px;
     font-weight: bold;
 }
+
+/* Checkbox
+-----------------------------------------------------*/
+
+/*Do something with checkboxes here...*/
 
 /* Form Errors
 -----------------------------------------------------*/
