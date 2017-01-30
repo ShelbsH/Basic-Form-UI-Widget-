@@ -1,4 +1,4 @@
-@import 'https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700';
+﻿@import 'https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700';
 
 html {
     font-size: 62.5%;
@@ -16,6 +16,12 @@ div {
     margin: 0 auto;
 }
 
+/* Div block level elements
+-----------------------------------------------------*/
+div.row div.form-default {
+    margin-bottom: 1.5rem;
+}
+
 /* Labels
 -----------------------------------------------------*/
 .form-default .labels {
@@ -23,18 +29,13 @@ div {
   display: block;
   color: inherit;
   font-weight: bold;
+  clear: both;
 }
 
 /* Textbox
 -----------------------------------------------------*/
 
-.form-default input[type="text"],
-input[type="tel"],
-input[type="email"],
-input[type="url"],
-input[type="password"],
-input[type="number"],
-textarea, select {
+.form-default .custom-input {
     box-shadow: none;
     border-radius: 2px;
     background-color: #fff;
@@ -42,31 +43,32 @@ textarea, select {
     height: 35px;
     box-sizing: border-box;
     border: 1px solid #808080;
-    margin-bottom: 1.3rem;
     padding-left: 1.2rem;
-    color: black;
+    color: #343131;
     min-width: 100%;
     width: 100%;
     font-weight: normal;
     font-size: 1.7rem;
 }
 
-.form-default input[type="text"],
-input[type="tel"],
-input[type="email"],
-input[type="url"],
-input[type="password"],
-input[type="number"],
-textarea, select {
+.form-default .custom-input:hover {
+    border: 1px solid #57DAB0;
+}
+
+.form-default .custom-input:focus {
+    border: 1px solid #57DAB0;
+}
+
+.form-default .custom-input {
     -moz-appearance: none;
     -webkit-appearance: none;
 }
 
-.form-default input:focus {
+.form-default .custom-input:focus {
     outline: none;
 }
 
-.form-default textarea {
+.form-default textarea.custom-input {
   min-height: 70px;
   padding-top: 15px;
 }
@@ -83,8 +85,10 @@ textarea, select {
    color: #9c9fa3;  
 }
 
-:-ms-input-placeholder {  
-   color: #9c9fa3;  
+:-ms-input-placeholder {
+    color: #9c9fa3;
+}
+
 /* Button
 -----------------------------------------------------*/
 .form-default .form-buttons {
@@ -106,13 +110,21 @@ textarea, select {
     font-weight: bold;
 }
 
-/* Checkbox
------------------------------------------------------*/
-
-/*Do something with checkboxes here...*/
-
 /* Form Errors
 -----------------------------------------------------*/
+
+.form-default .invalidInput {
+    background-color: #FFCECE;
+    border-color: #E00B0B;
+}
+
+span.errorMessage {
+    color: #EA0000;
+    font-size: 1.3rem;
+    font-family: arial;
+    letter-spacing: 1px;
+    font-style: italic;
+}
 
 /*Do something with errors here...*/
 
