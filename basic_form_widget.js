@@ -50,7 +50,7 @@ $.widget('Shurns.basicForm', {
     
     this._addClass(uiFormBasic.find('div'), 'form-default');
     this._addClass(uiFormBasic.find('label'), 'labels');
-    this._addClass(uiFormBasic.find('input'), 'form-default');
+    this._addClass(uiFormBasic.find('input'), 'custom-input');
     
     if(uiFormBasic.length > 1) {
       this._addClass($prevRows.children(), cols[column] + ' columns');
