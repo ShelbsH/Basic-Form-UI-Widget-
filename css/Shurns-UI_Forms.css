@@ -18,7 +18,7 @@ div {
 
 /* Div block level elements
 -----------------------------------------------------*/
-div.row div.form-default {
+div.rows div.form-default {
     margin-bottom: 1.5rem;
 }
 
