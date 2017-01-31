@@ -48,7 +48,7 @@ $.widget('Shurns.basicForm', {
         cols = {1: 'twelve', 2: 'six', 3: 'four', 4: 'three'},
         $sizeEl = $lastRow.children().length < $prevRows.children().length ? cols[$lastRow.children().length] : cols[column];    
     
-
+    this._addClass(uiFormBasic.find('div'), 'form-default');
     this._addClass(uiFormBasic.find('label'), 'labels');
     this._addClass(uiFormBasic.find('input'), 'form-default');
     
