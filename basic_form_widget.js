@@ -1,3 +1,5 @@
+'use strict';
+
 $.widget('Shurns.basicForm', {
 
   options: {
