@@ -21,7 +21,7 @@ $.widget('Shurns.basicForm', {
   _createData: function () {
     
     var inputNames = this.options.itemNames,
-        columns = this.options.perColumn,
+        columns = Math.max(1, Math.min(4, this.options.perColumn)),
         formData = '',
         storeInputs = [],
         x = 0;
@@ -43,7 +43,7 @@ $.widget('Shurns.basicForm', {
 
   _columnToClass: function () {
 
-    var column = this.options.perColumn,
+    var column = Math.max(1, Math.min(4, this.options.perColumn)),
         uiFormBasic = this.uiFormBasic.find('div.rows'),
         $prevRows = uiFormBasic.last().prevAll(),
         $lastRow = uiFormBasic.last(),

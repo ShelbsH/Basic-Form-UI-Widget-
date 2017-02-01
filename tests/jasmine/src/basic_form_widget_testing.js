@@ -1,11 +1,15 @@
+'use strict';
+
 $.widget('Shurns.basicForm', {
 
   options: {
     itemNames: [],
-    perColumn: 2
+    perColumn: 2,
+    allRowsSameSize: false
   },
 
   _create: function () {
+    
     var items = this.options.itemNames;
 
     if ($.isArray(items) && items.length) {
@@ -18,7 +22,7 @@ $.widget('Shurns.basicForm', {
   _createData: function () {
     
     var inputNames = this.options.itemNames,
-        columns = this.options.perColumn,
+        columns = Math.max(1, Math.min(4, this.options.perColumn)),
         formData = '',
         storeInputs = [],
         x = 0;
@@ -40,16 +44,16 @@ $.widget('Shurns.basicForm', {
 
   _columnToClass: function () {
 
-    var column = this.options.perColumn,
+    var column = Math.max(1, Math.min(4, this.options.perColumn)),
         uiFormBasic = this.uiFormBasic.find('div.rows'),
         $prevRows = uiFormBasic.last().prevAll(),
         $lastRow = uiFormBasic.last(),
         cols = {1: 'twelve', 2: 'six', 3: 'four', 4: 'three'},
         $sizeEl = $lastRow.children().length < $prevRows.children().length ? cols[$lastRow.children().length] : cols[column];    
     
-
+    this._addClass(uiFormBasic.find('div'), 'form-default');
     this._addClass(uiFormBasic.find('label'), 'labels');
-    this._addClass(uiFormBasic.find('input'), 'form-default');
+    this._addClass(uiFormBasic.find('input'), 'custom-input');
     
     if(uiFormBasic.length > 1) {
       this._addClass($prevRows.children(), cols[column] + ' columns');
@@ -65,4 +69,9 @@ $.widget('Shurns.basicForm', {
   _setOption: function (key, value) {
 
   }
+});
+
+$('#feedback').basicForm({
+ itemNames: ['First Name', 'Last Name', 'Email Address', 'City', 'State', 'Zip'],
+ perColumn: 6
 });
