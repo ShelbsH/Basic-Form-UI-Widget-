@@ -28,10 +28,10 @@ $.widget('Shurns.basicForm', {
   _createData: function () {
     
     var inputNames = this.options.itemNames,
-        columns = this._getColumnNum(this.options.perColumn),
-        formData = '',
-        storeInputs = [],
-        x = 0;
+    columns = this._getColumnNum(this.options.perColumn),
+    formData = '',
+    storeInputs = [],
+    x = 0;
 
     this.uiFormBasic = $('<div>');
     this._addClass(this.uiFormBasic, 'form-default');
@@ -51,15 +51,15 @@ $.widget('Shurns.basicForm', {
   _columnToClass: function () {
 
     var column = this._getColumnNum(this.options.perColumn),
-        uiFormBasic = this.uiFormBasic.find('div.rows'),
-        $prevRows = uiFormBasic.last().prevAll(),
-        $lastRow = uiFormBasic.last(),
-        cols = {1: 'twelve', 2: 'six', 3: 'four', 4: 'three'},
-        $sizeEl = $lastRow.children().length < $prevRows.children().length ? cols[$lastRow.children().length] : cols[column];    
-        
+    uiFormBasic = this.uiFormBasic.find('div.rows'),
+    $prevRows = uiFormBasic.last().prevAll(),
+    $lastRow = uiFormBasic.last(),
+    cols = {1: 'twelve', 2: 'six', 3: 'four', 4: 'three'},
+    $sizeEl = $lastRow.children().length < $prevRows.children().length ? cols[$lastRow.children().length] : cols[column];    
+    
     if(this.options.allRowWidthSameSize) {
-			if(uiFormBasic.length > 1) {
-        this._addClass($prevRows.children(), cols[column] + ' columns');
+     if(uiFormBasic.length > 1) {
+      this._addClass($prevRows.children(), cols[column] + ' columns');
 
         //Bottom column(s) needs to match the same previous elements via stretch.
         this._addClass(uiFormBasic.last().children(), $sizeEl + ' columns');
@@ -67,10 +67,10 @@ $.widget('Shurns.basicForm', {
       else {
         this._addClass(uiFormBasic.children(), cols[column] + ' columns');
       }
-		}
-		else {
-		  this._addClass(uiFormBasic.find('div'), cols[column] + ' columns');
-		}
+    }
+    else {
+      this._addClass(uiFormBasic.find('div'), cols[column] + ' columns');
+    }
 
     this._addClass(uiFormBasic.find('div'), 'form-default');
     this._addClass(uiFormBasic.find('label'), 'labels');
