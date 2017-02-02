@@ -26,14 +26,26 @@ describe('Basic Form Widget', function () {
       expect(formBasic.find('div')).toHaveClass('four columns');
     });
 
-    it('set of last row with less columns compared to previous rows with more columns has to be equal of size', function() {
+    it('should have of equal size if the "allRowWidthSameSize" option is set to true', function() {
 
       formBasic.basicForm({
         itemNames: ['First Name', 'Middle Name', 'Last Name', 'Skills', 'City', 'State'],
-        perColumn: 4
+        perColumn: 4,
+        allRowWidthSameSize: true
       });
 
       expect(formBasic.find('div').last()).toHaveClass('six columns');
+    });
+
+    it('should not have of equal size if the "allRowWidthSameSize" option is set to false', function() {
+
+      formBasic.basicForm({
+        itemNames: ['First Name', 'Middle Name', 'Last Name', 'Skills', 'City', 'State'],
+        perColumn: 4,
+        allRowWidthSameSize: false
+      });
+
+      expect(formBasic.find('div').last()).toHaveClass('three columns');
     });
   });
  });
