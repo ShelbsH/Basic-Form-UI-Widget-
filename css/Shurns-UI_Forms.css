@@ -14,11 +14,6 @@ html {
 /* Divs
 -----------------------------------------------------*/
 
-div {
-    width: 700px;
-    margin: 0 auto;
-}
-
 div.rows {
   float: left;
 }
