@@ -11,13 +11,18 @@ html {
   color: #121212;
 }
 
+/* Divs
+-----------------------------------------------------*/
+
 div {
     width: 700px;
     margin: 0 auto;
 }
 
-/* Div block level elements
------------------------------------------------------*/
+div.rows {
+  float: left;
+}
+
 div.rows div.form-default {
     margin-bottom: 1.5rem;
 }
@@ -103,7 +108,6 @@ div.rows div.form-default {
     border-radius: 4px;
     font-size: 1.5rem;
     color: #fff;
-    text-transform: uppercase;
     box-sizing: border-box;
     line-height: 30px;
     padding: 0 25px;
