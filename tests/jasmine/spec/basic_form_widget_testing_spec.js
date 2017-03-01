@@ -26,26 +26,53 @@ describe('Basic Form Widget', function () {
       expect(formBasic.find('div')).toHaveClass('four columns');
     });
 
-    it('should have of equal size if the "allRowWidthSameSize" option is set to true', function() {
+    it('should have of equal size if the "allRowSameSize" option is set to true', function() {
 
       formBasic.basicForm({
         itemNames: ['First Name', 'Middle Name', 'Last Name', 'Skills', 'City', 'State'],
         perColumn: 4,
-        allRowWidthSameSize: true
+        allRowSameSize: true
       });
 
       expect(formBasic.find('div').last()).toHaveClass('six columns');
     });
 
-    it('should not have of equal size if the "allRowWidthSameSize" option is set to false', function() {
+    it('should not have of equal size if the "allRowSameSize" option is set to false', function() {
 
       formBasic.basicForm({
         itemNames: ['First Name', 'Middle Name', 'Last Name', 'Skills', 'City', 'State'],
         perColumn: 4,
-        allRowWidthSameSize: false
+        allRowSameSize: false
       });
 
       expect(formBasic.find('div').last()).toHaveClass('three columns');
+    });
+
+    describe('All inputs needs to have working field options that provides validaiton properties', function() {
+
+      it('needs to have errors when the input has a required property that\'s set to true', function() {
+
+        formBasic.basicForm({
+          itemNames: ['First Name', 'Middle Name', 'Last Name'],
+          field: {
+            'firstName': {
+              required: true,
+              message: 'First Name is required'
+            },
+            'lastName': {
+              required: true,
+              message: 'Last Name is required'
+            }
+          }
+        });
+ 
+        formBasic.find('button').trigger('submit'); 
+
+        //Get the span elements to check whether the errorMessage class is inserted.
+        expect(formBasic.find('input[name$="Name"]').next()).toHaveClass('errorMessage');
+        expect(formBasic.find('input[name^="first"]').next()).toContainText('First Name is required');
+        expect(formBasic.find('input[name^="last"]').next()).toContainText('Last Name is required');
+      });
     });
   });
  });
