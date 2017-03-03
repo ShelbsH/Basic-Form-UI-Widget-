@@ -119,7 +119,7 @@ $.widget('Shurns.basicForm', {
         var $formUi = this.uiFormBasic,
             $inputName,
             field = this.options.field,
-            isValid = false,
+            notValid = false,
             that = this;
 
         for(var i in field) {
@@ -127,16 +127,16 @@ $.widget('Shurns.basicForm', {
             $inputName = $formUi.find('input[name="' + i + '"]');
 
             if(field[i].required) {
-              isValid = this._isRequired($inputName);
+              notValid = this._isRequired($inputName);
             }
             else if(field[i].validType) {
-              isValid = this._validation($inputName)[field[i].validType]();
+              notValid = this._validation($inputName)[field[i].validType]();
             }
             else {
               continue;
             }
 
-            if(isValid) {
+            if(notValid) {
               $inputName.each(function() {
                 var $inputError = $(this),
                     msg = ($inputError.prev().text() + ' is required').toLowerCase() //Default error message
