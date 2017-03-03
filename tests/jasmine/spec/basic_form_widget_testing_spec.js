@@ -68,11 +68,38 @@ describe('Basic Form Widget', function () {
  
         formBasic.find('button').trigger('submit'); 
 
+        //Checks for the input to have a new class added.
+        expect(formBasic.find('input[name$="Name"]')).toHaveClass('invalidInput');
+
         //Get the span elements to check whether the errorMessage class is inserted.
         expect(formBasic.find('input[name$="Name"]').next()).toHaveClass('errorMessage');
         expect(formBasic.find('input[name^="first"]').next()).toContainText('First Name is required');
         expect(formBasic.find('input[name^="last"]').next()).toContainText('Last Name is required');
       });
+
+      it('needs to have errors when the input has a "validType" property set to the validation value', function() {
+
+        formBasic.basicForm({
+          itemNames: ['First Name', 'Last Name', 'Phone Number', 'Email'],
+          field: {
+            'phoneNumber': {
+              validType: 'phone',
+              message: 'Phone number is invalid'
+            },
+            'email': {
+              validType: 'email',
+              message: 'The email address provided is invalid'
+            }
+          }
+        });
+
+        formBasic.find('button').trigger('submit');
+
+        expect(formBasic.find('input[name="phoneNumber"]')).toHaveClass('invalidInput');
+        expect(formBasic.find('input[name="phoneNumber"]').next()).toContainText('Phone number is invalid');
+
+      })
+
     });
   });
  });

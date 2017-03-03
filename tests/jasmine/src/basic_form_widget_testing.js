@@ -77,6 +77,8 @@ $.widget('Shurns.basicForm', {
         colsString = cols[column] + ' columns',
         allRowSameSize = this.options.allRowSameSize;
 
+
+    //TODO: The addClass functions needs to be moved to the _create function.
     this._addClass($allRows.find('div'), 'form-default');
     this._addClass($allRows.find('label'), 'labels');
     this._addClass($allRows.find('input'), 'form-default', 'custom-input');
@@ -117,7 +119,8 @@ $.widget('Shurns.basicForm', {
         var $formUi = this.uiFormBasic,
             $inputName,
             field = this.options.field,
-            isValid = false;
+            isValid = false,
+            that = this;
 
         for(var i in field) {
           if(field.hasOwnProperty(i)) {
@@ -126,12 +129,15 @@ $.widget('Shurns.basicForm', {
             if(field[i].required) {
               isValid = this._isRequired($inputName);
             }
+            else if(field[i].validType) {
+              isValid = this._validation($inputName)[field[i].validType]();
+            }
             else {
               continue;
             }
 
             if(isValid) {
-              $inputName.each(function(index, el) {
+              $inputName.each(function() {
                 var $inputError = $(this),
                     msg = ($inputError.prev().text() + ' is required').toLowerCase() //Default error message
 
@@ -141,9 +147,13 @@ $.widget('Shurns.basicForm', {
                   }
                 });
 
-                $inputError.next().addClass('errorMessage');
+                that._addErrors($inputError);
+
                 evt.preventDefault();
               });
+            }
+            else {
+              this._removeErrors($inputName);
             }
           }
         }
@@ -155,8 +165,30 @@ $.widget('Shurns.basicForm', {
     return (el.val() === '' || !el.val().length);
   },
 
-  _validType: function(el, value) {
+  _addErrors: function(el) {
+    this._addClass(el, 'invalidInput');
+    this._addClass(el.next(), 'errorMessage');
+  },
 
+  _removeErrors: function(el) {
+    this._removeClass(el, 'invalidInput');
+    this._removeClass(el.next(), 'errorMessage');
+    el.next().remove();
+  },
+
+  _validation: function(el) {
+    var regTests = {
+      getPhone: /^(\([0-9]{3}\)[\s])(([0-9]{3}[\-])([0-9]{4}))$/ig
+    };
+
+    return {
+      phone: function() {
+        return !(regTests.getPhone.test(el.val()));
+      },
+      email: function() {
+
+      }
+    }
   },
 
   _setOption: function (key, value) {
