@@ -80,15 +80,15 @@ describe('Basic Form Widget', function () {
       it('needs to have errors when the input has a "validType" property set to the validation value', function() {
 
         formBasic.basicForm({
-          itemNames: ['First Name', 'Last Name', 'Phone Number', 'Email'],
+          itemNames: ['First Name', 'Last Name', 'Phone Number', 'Zip'],
           field: {
             'phoneNumber': {
               validType: 'phone',
               message: 'Phone number is invalid'
             },
-            'email': {
-              validType: 'email',
-              message: 'The email address provided is invalid'
+            'zip': {
+              validType: 'numeric',
+              message: 'The zip you entered is invalid'
             }
           }
         });
@@ -97,6 +97,8 @@ describe('Basic Form Widget', function () {
 
         expect(formBasic.find('input[name="phoneNumber"]')).toHaveClass('invalidInput');
         expect(formBasic.find('input[name="phoneNumber"]').next()).toContainText('Phone number is invalid');
+        expect(formBasic.find('input[name="zip"]')).toHaveClass('invalidInput');
+        expect(formBasic.find('input[name="zip"]').next()).toContainText('The zip you entered is invalid');
 
       })
 
