@@ -77,8 +77,6 @@ $.widget('Shurns.basicForm', {
         colsString = cols[column] + ' columns',
         allRowSameSize = this.options.allRowSameSize;
 
-
-    //TODO: The addClass functions needs to be moved to the _create function.
     this._addClass($allRows.find('div'), 'form-default');
     this._addClass($allRows.find('label'), 'labels');
     this._addClass($allRows.find('input'), 'form-default', 'custom-input');
@@ -178,20 +176,25 @@ $.widget('Shurns.basicForm', {
 
   _validation: function(el) {
     var regTests = {
-      getPhone: /^(\([0-9]{3}\)[\s])(([0-9]{3}[\-])([0-9]{4}))$/ig
+      getPhone: /^(\([0-9]{3}\)[\s])(([0-9]{3}[\-])([0-9]{4}))$/ig,
+      getAlpha: /^([A-Za-z]+)$/ig,
+      getNumeric: /^[0-9]+$/ig,
+      getZip: /(^\d{5}(?:[\s]?[-\s][\s]?\d{4})?$)/ig
     };
 
     return {
       phone: function() {
         return !(regTests.getPhone.test(el.val()));
       },
-      email: function() {
-
+      alpha: function() {
+        return !(regTests.getAlpha.test(el.val()));
+      },
+      numeric: function() {
+        return !(regTests.getNumeric.test(el.val()));
+      },
+      zip: function() {
+        return !(regTests.getZip.test(el.val()));
       }
     }
-  },
-
-  _setOption: function (key, value) {
-
   }
 });

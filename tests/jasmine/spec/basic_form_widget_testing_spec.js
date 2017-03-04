@@ -87,7 +87,7 @@ describe('Basic Form Widget', function () {
               message: 'Phone number is invalid'
             },
             'zip': {
-              validType: 'numeric',
+              validType: 'zip',
               message: 'The zip you entered is invalid'
             }
           }
