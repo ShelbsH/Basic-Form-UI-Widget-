@@ -32,9 +32,11 @@ $.widget('Shurns.basicForm', {
     }
   },
 
-  _getPerColumnNum: function(column) {
+  _getPerColumnNum: function() {
+    var columnNumber = this.options.perColumn;
+
     //Number of columns can't be no more than 4 per row
-    return Math.max(1, Math.min(4, column));
+    return Math.max(1, Math.min(4, columnNumber));
   },
 
   _toCamelCase: function(name) {
@@ -49,12 +51,18 @@ $.widget('Shurns.basicForm', {
 
   _createData: function () {
     var inputNames = this.options.itemNames,
-        columns = this._getPerColumnNum(this.options.perColumn),
+        columns = this._getPerColumnNum(),
         formData = '',
         storeInputs = [],
         x = 0;
 
     this.uiFormBasic = $('<form action="#" method="POST">');
+
+    /* 
+     * Every other nth element from the storeInputs array will equal to the 
+     * perColumn option, which extracts and stores every other nth element
+     * in the new "div.row" element(s)
+     */
 
     $.each(inputNames, function (num, names) {
       storeInputs.push('<div><label>' + names + '</label><input type="text" name="' + this._toCamelCase(names) + '"></div>');    
@@ -71,7 +79,7 @@ $.widget('Shurns.basicForm', {
   },
 
   _columnToClass: function () {
-    var column = this._getPerColumnNum(this.options.perColumn),
+    var column = this._getPerColumnNum(),
         $allRows = this.uiFormBasic.find('div.rows'),
         cols = {1: 'twelve', 2: 'six', 3: 'four', 4: 'three'},
         colsString = cols[column] + ' columns',
@@ -81,7 +89,6 @@ $.widget('Shurns.basicForm', {
     this._addClass($allRows.find('label'), 'labels');
     this._addClass($allRows.find('input'), 'form-default', 'custom-input');
 
-    //WIll be later possiblity not used as an inner function.
     var equalRowSize = function() {
       var $lastRow = $allRows.last().children(),
           $prevRows = $allRows.last().prevAll().children(),
@@ -106,7 +113,6 @@ $.widget('Shurns.basicForm', {
     this.btn = $('<button type="submit"></button>').button({label: label}); 
     this._addClass(this.btn, 'form-default', 'form-buttons');
     this.uiFormBasic.append(this.btn);
-    //Possibility create different button positionings.
   },
 
   _basicValidate: function() {
