@@ -8,7 +8,7 @@ $.widget('Shurns.basicForm', {
     allRowSameSize: false,
     button: {
       label: 'Submit',
-      position: 'left' //Will be implemented later
+      position: 'left'
     },
     field: {/*Will be used for validation options*/}
   },
