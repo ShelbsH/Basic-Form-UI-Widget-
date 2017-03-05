@@ -10,7 +10,7 @@ $.widget('Shurns.basicForm', {
       label: 'Submit',
       position: 'left'
     },
-    field: {/*Will be used for validation options*/}
+    field: {/*validation options*/}
   },
 
   _create: function () {
@@ -59,9 +59,9 @@ $.widget('Shurns.basicForm', {
     this.uiFormBasic = $('<form action="#" method="POST">');
 
     /* 
-     * Every other nth element from the storeInputs array will equal to the 
-     * perColumn option, which extracts and stores every other nth element
-     * in the new "div.row" element(s)
+     * Number of div.row element(s) will be created based on the length of the storeInputs 
+     * array, where every other nth element from the storeInputs array will equal to the perColumn
+     * option, which extracts and stores every other nth element in the "div.row" element(s)
      */
 
     $.each(inputNames, function (num, names) {
@@ -82,7 +82,7 @@ $.widget('Shurns.basicForm', {
     var column = this._getPerColumnNum(),
         $allRows = this.uiFormBasic.find('div.rows'),
         cols = {1: 'twelve', 2: 'six', 3: 'four', 4: 'three'},
-        colsString = cols[column] + ' columns',
+        colsString = cols[column] + ' columns', // Will be based on the default grid css classes
         allRowSameSize = this.options.allRowSameSize;
 
     this._addClass($allRows.find('div'), 'form-default');
@@ -93,12 +93,21 @@ $.widget('Shurns.basicForm', {
       var $lastRow = $allRows.last().children(),
           $prevRows = $allRows.last().prevAll().children(),
           lastCols = cols[$lastRow.length] + ' columns',
+
+          /*
+           * Only will expand the input to a bigger size based on the
+           * css grid system class if the last row has less columns
+           */
           evenWidth = $lastRow.length < $prevRows.length ? lastCols : colsString;
 
       this._addClass($prevRows, colsString);
       this._addClass($lastRow, evenWidth);
     }.bind(this);
 
+    /*
+     * Call the equalRowSize function if the allRowSameSize option is set to true, otherwise 
+     * every input column will have the same grid column class from the perColum option.
+     */
     if(allRowSameSize && $allRows.length > 1) {
       equalRowSize();
     }
@@ -143,7 +152,12 @@ $.widget('Shurns.basicForm', {
             if(notValid) {
               $inputName.each(function() {
                 var $inputError = $(this),
-                    msg = ($inputError.prev().text() + ' is required').toLowerCase() //Default error message
+                    msg = ($inputError.prev().text() + ' is required').toLowerCase(); // Default error message
+
+                /*
+                 * Use the callback function so the span element won't  
+                 * re-create every time the submit is still invaildated.
+                 */
 
                 $inputError.after(function() {
                   if(!$(this).next().is('span')) {
