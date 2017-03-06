@@ -10,7 +10,7 @@ $.widget('Shurns.basicForm', {
       label: 'Submit',
       position: 'left'
     },
-    field: {/* validation options */}
+    field: {/*validation options*/}
   },
 
   _create: function () {
@@ -32,9 +32,11 @@ $.widget('Shurns.basicForm', {
     }
   },
 
-  _getPerColumnNum: function(column) {
+  _getPerColumnNum: function() {
+    var columnNumber = this.options.perColumn;
+
     //Number of columns can't be no more than 4 per row
-    return Math.max(1, Math.min(4, column));
+    return Math.max(1, Math.min(4, columnNumber));
   },
 
   _toCamelCase: function(name) {
@@ -49,12 +51,18 @@ $.widget('Shurns.basicForm', {
 
   _createData: function () {
     var inputNames = this.options.itemNames,
-        columns = this._getPerColumnNum(this.options.perColumn),
+        columns = this._getPerColumnNum(),
         formData = '',
         storeInputs = [],
         x = 0;
 
     this.uiFormBasic = $('<form action="#" method="POST">');
+
+    /* 
+     * Number of div.row element(s) will be created based on the length of the storeInputs 
+     * array, where every other nth element(s) from the storeInputs array will equal to the perColumn
+     * option, which extracts and stores every other nth element(s) in the "div.row" element(s)
+     */
 
     $.each(inputNames, function (num, names) {
       storeInputs.push('<div><label>' + names + '</label><input type="text" name="' + this._toCamelCase(names) + '"></div>');    
@@ -71,10 +79,10 @@ $.widget('Shurns.basicForm', {
   },
 
   _columnToClass: function () {
-    var column = this._getPerColumnNum(this.options.perColumn),
+    var column = this._getPerColumnNum(),
         $allRows = this.uiFormBasic.find('div.rows'),
         cols = {1: 'twelve', 2: 'six', 3: 'four', 4: 'three'},
-        colsString = cols[column] + ' columns',
+        colsString = cols[column] + ' columns', // Will be based on the grid css class
         allRowSameSize = this.options.allRowSameSize;
 
     this._addClass($allRows.find('div'), 'form-default');
@@ -85,12 +93,21 @@ $.widget('Shurns.basicForm', {
       var $lastRow = $allRows.last().children(),
           $prevRows = $allRows.last().prevAll().children(),
           lastCols = cols[$lastRow.length] + ' columns',
+
+          /*
+           * Expand the input to a bigger size based on the css
+           * grid class system rules if the last row has less columns
+           */
           evenWidth = $lastRow.length < $prevRows.length ? lastCols : colsString;
 
       this._addClass($prevRows, colsString);
       this._addClass($lastRow, evenWidth);
     }.bind(this);
 
+    /*
+     * Call the equalRowSize function if the allRowSameSize option is set to true, otherwise 
+     * every input column will have the same grid column class from the perColum option.
+     */
     if(allRowSameSize && $allRows.length > 1) {
       equalRowSize();
     }
@@ -115,23 +132,32 @@ $.widget('Shurns.basicForm', {
         var $formUi = this.uiFormBasic,
             $inputName,
             field = this.options.field,
-            isValid = false;
+            notValid = false,
+            that = this;
 
         for(var i in field) {
           if(field.hasOwnProperty(i)) {
             $inputName = $formUi.find('input[name="' + i + '"]');
 
             if(field[i].required) {
-              isValid = this._isRequired($inputName);
+              notValid = this._isRequired($inputName);
+            }
+            else if(field[i].validType) {
+              notValid = this._validation($inputName)[field[i].validType]();
             }
             else {
               continue;
             }
 
-            if(isValid) {
-              $inputName.each(function(index, el) {
+            if(notValid) {
+              $inputName.each(function() {
                 var $inputError = $(this),
-                    msg = ($inputError.prev().text() + ' is required').toLowerCase() //Default error message
+                    msg = ($inputError.prev().text() + ' is required').toLowerCase();
+
+                /*
+                 * Use the callback function so the span element should only be  
+                 * created once every time the submit is still invaildated.
+                 */
 
                 $inputError.after(function() {
                   if(!$(this).next().is('span')) {
@@ -139,9 +165,13 @@ $.widget('Shurns.basicForm', {
                   }
                 });
 
-                $inputError.next().addClass('errorMessage');
+                that._addErrors($inputError);
+
                 evt.preventDefault();
               });
+            }
+            else {
+              this._removeErrors($inputName);
             }
           }
         }
@@ -153,11 +183,38 @@ $.widget('Shurns.basicForm', {
     return (el.val() === '' || !el.val().length);
   },
 
-  _validType: function(el, value) {
-
+  _addErrors: function(el) {
+    this._addClass(el, 'invalidInput');
+    this._addClass(el.next(), 'errorMessage');
   },
 
-  _setOption: function (key, value) {
+  _removeErrors: function(el) {
+    this._removeClass(el, 'invalidInput');
+    this._removeClass(el.next(), 'errorMessage');
+    el.next().remove();
+  },
 
+  _validation: function(el) {
+    var regTests = {
+      getPhone: /^(\([0-9]{3}\)[\s])(([0-9]{3}[\-])([0-9]{4}))$/ig,
+      getAlpha: /^([A-Za-z]+)$/ig,
+      getNumeric: /^[0-9]+$/ig,
+      getZip: /(^\d{5}(?:[\s]?[-\s][\s]?\d{4})?$)/ig
+    };
+
+    return {
+      phone: function() {
+        return !(regTests.getPhone.test(el.val()));
+      },
+      alpha: function() {
+        return !(regTests.getAlpha.test(el.val()));
+      },
+      numeric: function() {
+        return !(regTests.getNumeric.test(el.val()));
+      },
+      zip: function() {
+        return !(regTests.getZip.test(el.val()));
+      }
+    }
   }
 });

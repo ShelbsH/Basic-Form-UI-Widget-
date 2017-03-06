@@ -99,8 +99,7 @@ describe('Basic Form Widget', function () {
         expect(formBasic.find('input[name="phoneNumber"]').next()).toContainText('Phone number is invalid');
         expect(formBasic.find('input[name="zip"]')).toHaveClass('invalidInput');
         expect(formBasic.find('input[name="zip"]').next()).toContainText('The zip you entered is invalid');
-
-      })
+      });
 
     });
   });

@@ -60,8 +60,8 @@ $.widget('Shurns.basicForm', {
 
     /* 
      * Number of div.row element(s) will be created based on the length of the storeInputs 
-     * array, where every other nth element from the storeInputs array will equal to the perColumn
-     * option, which extracts and stores every other nth element in the "div.row" element(s)
+     * array, where every other nth element(s) from the storeInputs array will equal to the perColumn
+     * option, which extracts and stores every other nth element(s) in the "div.row" element(s)
      */
 
     $.each(inputNames, function (num, names) {
@@ -82,7 +82,7 @@ $.widget('Shurns.basicForm', {
     var column = this._getPerColumnNum(),
         $allRows = this.uiFormBasic.find('div.rows'),
         cols = {1: 'twelve', 2: 'six', 3: 'four', 4: 'three'},
-        colsString = cols[column] + ' columns', // Will be based on the default grid css classes
+        colsString = cols[column] + ' columns', // Will be based on the grid css class
         allRowSameSize = this.options.allRowSameSize;
 
     this._addClass($allRows.find('div'), 'form-default');
@@ -95,8 +95,8 @@ $.widget('Shurns.basicForm', {
           lastCols = cols[$lastRow.length] + ' columns',
 
           /*
-           * Only will expand the input to a bigger size based on the
-           * css grid system class if the last row has less columns
+           * Expand the input to a bigger size based on the css
+           * grid class system rules if the last row has less columns
            */
           evenWidth = $lastRow.length < $prevRows.length ? lastCols : colsString;
 
@@ -152,11 +152,11 @@ $.widget('Shurns.basicForm', {
             if(notValid) {
               $inputName.each(function() {
                 var $inputError = $(this),
-                    msg = ($inputError.prev().text() + ' is required').toLowerCase(); // Default error message
+                    msg = ($inputError.prev().text() + ' is required').toLowerCase();
 
                 /*
-                 * Use the callback function so the span element won't  
-                 * re-create every time the submit is still invaildated.
+                 * Use the callback function so the span element should only be  
+                 * created once every time the submit is still invaildated.
                  */
 
                 $inputError.after(function() {
