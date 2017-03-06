@@ -68,7 +68,6 @@ describe('Basic Form Widget', function () {
  
         formBasic.find('button').trigger('submit'); 
 
-        //Checks for the input to have a new class added.
         expect(formBasic.find('input[name$="Name"]')).toHaveClass('invalidInput');
 
         //Get the span elements to check whether the errorMessage class is inserted.
