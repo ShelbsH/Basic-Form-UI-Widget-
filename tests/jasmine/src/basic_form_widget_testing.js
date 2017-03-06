@@ -65,7 +65,7 @@ $.widget('Shurns.basicForm', {
      */
 
     $.each(inputNames, function (num, names) {
-      storeInputs.push('<div><label>' + names + '</label><input type="text" name="' + this._toCamelCase(names) + '"></div>');    
+      storeInputs.push('<div><label>' + names + ':</label><input type="text" name="' + this._toCamelCase(names) + '"></div>');    
     }.bind(this));
 
     while (x < storeInputs.length) {
@@ -198,6 +198,7 @@ $.widget('Shurns.basicForm', {
     var regTests = {
       getPhone: /^(\([0-9]{3}\)[\s])(([0-9]{3}[\-])([0-9]{4}))$/ig,
       getAlpha: /^([A-Za-z]+)$/ig,
+      getEmail: /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/ig,
       getNumeric: /^[0-9]+$/ig,
       getZip: /(^\d{5}(?:[\s]?[-\s][\s]?\d{4})?$)/ig
     };
@@ -208,6 +209,9 @@ $.widget('Shurns.basicForm', {
       },
       alpha: function() {
         return !(regTests.getAlpha.test(el.val()));
+      },
+      email: function() {
+        return !(regTests.getEmail.test(el.val()));
       },
       numeric: function() {
         return !(regTests.getNumeric.test(el.val()));
