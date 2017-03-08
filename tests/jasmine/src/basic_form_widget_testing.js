@@ -220,5 +220,11 @@ $.widget('Shurns.basicForm', {
         return !(regTests.getZip.test(el.val()));
       }
     }
+  },
+  
+  _destroy: function () {
+    this._removeClass(this.element, 'form-default');
+
+    this.element.children('form').remove();
   }
 });

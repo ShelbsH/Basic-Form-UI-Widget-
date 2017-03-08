@@ -10,7 +10,7 @@ $.widget('Shurns.basicForm', {
       label: 'Submit',
       position: 'left'
     },
-    field: {/*validation options*/}
+    field: {/*validation options*/ }
   },
 
   _create: function () {
@@ -18,31 +18,31 @@ $.widget('Shurns.basicForm', {
     var items = this.options.itemNames,
         field = this.options.field;
 
-    if($.isArray(items) && items.length) {
+    if ($.isArray(items) && items.length) {
       this._addClass(this.element, 'form-default');
-      
+
       this._createData();
       this._columnToClass();
       this.element.append(this.uiFormBasic);
       this._submitButton();
 
-      if(!$.isEmptyObject(field)) {
+      if (!$.isEmptyObject(field)) {
         this._basicValidate();
       }
     }
   },
 
-  _getPerColumnNum: function() {
+  _getPerColumnNum: function () {
     var columnNumber = this.options.perColumn;
 
     //Number of columns can't be no more than 4 per row
     return Math.max(1, Math.min(4, columnNumber));
   },
 
-  _toCamelCase: function(name) {
+  _toCamelCase: function (name) {
     //All attribute names from inputs needs to be converted to camel cases
     return name.replace(/(^([A-Z]+)|(\s([a-z])))/g, function (match, p1, p2) {
-      if(p2) {
+      if (p2) {
         return p2.toLowerCase();
       }
       return p1.toUpperCase();
@@ -65,7 +65,7 @@ $.widget('Shurns.basicForm', {
      */
 
     $.each(inputNames, function (num, names) {
-      storeInputs.push('<div><label>' + names + ':</label><input type="text" name="' + this._toCamelCase(names) + '"></div>');    
+      storeInputs.push('<div><label>' + names + ':</label><input type="text" name="' + this._toCamelCase(names) + '"></div>');
     }.bind(this));
 
     while (x < storeInputs.length) {
@@ -81,7 +81,7 @@ $.widget('Shurns.basicForm', {
   _columnToClass: function () {
     var column = this._getPerColumnNum(),
         $allRows = this.uiFormBasic.find('div.rows'),
-        cols = {1: 'twelve', 2: 'six', 3: 'four', 4: 'three'},
+        cols = { 1: 'twelve', 2: 'six', 3: 'four', 4: 'three' },
         colsString = cols[column] + ' columns', // Will be based on the grid css class
         allRowSameSize = this.options.allRowSameSize;
 
@@ -89,7 +89,7 @@ $.widget('Shurns.basicForm', {
     this._addClass($allRows.find('label'), 'labels');
     this._addClass($allRows.find('input'), 'form-default', 'custom-input');
 
-    var equalRowSize = function() {
+    var equalRowSize = function () {
       var $lastRow = $allRows.last().children(),
           $prevRows = $allRows.last().prevAll().children(),
           lastCols = cols[$lastRow.length] + ' columns',
@@ -108,7 +108,7 @@ $.widget('Shurns.basicForm', {
      * Call the equalRowSize function if the allRowSameSize option is set to true, otherwise 
      * every input column will have the same grid column class from the perColum option.
      */
-    if(allRowSameSize && $allRows.length > 1) {
+    if (allRowSameSize && $allRows.length > 1) {
       equalRowSize();
     }
     else {
@@ -116,41 +116,41 @@ $.widget('Shurns.basicForm', {
     }
   },
 
-  _submitButton: function() {
+  _submitButton: function () {
     var label = this.options.button.label;
 
-    this.btn = $('<button type="submit"></button>').button({label: label}); 
+    this.btn = $('<button type="submit"></button>').button({ label: label });
     this._addClass(this.btn, 'form-default', 'form-buttons');
     this.uiFormBasic.append(this.btn);
   },
 
-  _basicValidate: function() {
+  _basicValidate: function () {
     var form = this.element.children('form');
 
     this._on(form, {
-      submit: function(evt) {
+      submit: function (evt) {
         var $formUi = this.uiFormBasic,
             $inputName,
             field = this.options.field,
             notValid = false,
             that = this;
 
-        for(var i in field) {
-          if(field.hasOwnProperty(i)) {
+        for (var i in field) {
+          if (field.hasOwnProperty(i)) {
             $inputName = $formUi.find('input[name="' + i + '"]');
 
-            if(field[i].required) {
+            if (field[i].required) {
               notValid = this._isRequired($inputName);
             }
-            else if(field[i].validType) {
+            else if (field[i].validType) {
               notValid = this._validation($inputName)[field[i].validType]();
             }
             else {
               continue;
             }
 
-            if(notValid) {
-              $inputName.each(function() {
+            if (notValid) {
+              $inputName.each(function () {
                 var $inputError = $(this),
                     msg = ($inputError.prev().text() + ' is required').toLowerCase();
 
@@ -159,8 +159,8 @@ $.widget('Shurns.basicForm', {
                  * created once every time the submit is still invaildated.
                  */
 
-                $inputError.after(function() {
-                  if(!$(this).next().is('span')) {
+                $inputError.after(function () {
+                  if (!$(this).next().is('span')) {
                     return '<span>' + (field[i].message || msg) + '</span>';
                   }
                 });
@@ -179,22 +179,22 @@ $.widget('Shurns.basicForm', {
     })
   },
 
-  _isRequired: function(el) {
+  _isRequired: function (el) {
     return (el.val() === '' || !el.val().length);
   },
 
-  _addErrors: function(el) {
+  _addErrors: function (el) {
     this._addClass(el, 'invalidInput');
     this._addClass(el.next(), 'errorMessage');
   },
 
-  _removeErrors: function(el) {
+  _removeErrors: function (el) {
     this._removeClass(el, 'invalidInput');
     this._removeClass(el.next(), 'errorMessage');
     el.next().remove();
   },
 
-  _validation: function(el) {
+  _validation: function (el) {
     var regTests = {
       getPhone: /^(\([0-9]{3}\)[\s])(([0-9]{3}[\-])([0-9]{4}))$/ig,
       getAlpha: /^([A-Za-z]+)$/ig,
@@ -204,21 +204,27 @@ $.widget('Shurns.basicForm', {
     };
 
     return {
-      phone: function() {
+      phone: function () {
         return !(regTests.getPhone.test(el.val()));
       },
-      alpha: function() {
+      alpha: function () {
         return !(regTests.getAlpha.test(el.val()));
       },
-      email: function() {
+      email: function () {
         return !(regTests.getEmail.test(el.val()));
       },
-      numeric: function() {
+      numeric: function () {
         return !(regTests.getNumeric.test(el.val()));
       },
-      zip: function() {
+      zip: function () {
         return !(regTests.getZip.test(el.val()));
       }
     }
+  },
+
+  _destroy: function () {
+    this._removeClass(this.element, 'form-default');
+
+    this.element.children('form').remove();
   }
 });
