@@ -152,7 +152,7 @@ $.widget('Shurns.basicForm', {
             if (notValid) {
               $inputName.each(function () {
                 var $inputError = $(this),
-                    msg = ($inputError.prev().text() + ' is required').toLowerCase();
+                    msg = ($inputError.prev().text().replace(/:$/, '') + ' is required').toLowerCase();
 
                 /*
                  * Use the callback function so the span element should only be  
