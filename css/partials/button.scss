@@ -1,0 +1,16 @@
+@mixin buttons($buttoncolor) {
+  @include border($buttoncolor);
+  text-align: center;
+  text-decoration: none;
+  letter-spacing: normal;
+  background: none;
+  display: inline-block;
+  background-color: $buttoncolor;
+  border-radius: 4px;
+  font-size: 1.5rem;
+  color: #fff;
+  box-sizing: border-box;
+  line-height: 30px;
+  padding: 0 25px;
+  font-weight: bold;
+};

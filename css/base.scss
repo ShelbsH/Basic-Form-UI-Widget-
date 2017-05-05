@@ -1,0 +1,16 @@
+html {
+  font-size: 62.5%;
+}
+
+.form-default {
+  @include default-form;
+  .labels {
+    @include labels;
+  }
+  .custom-input {
+    @include custom-input;
+  }
+  .form-buttons {
+    @include buttons($buttoncolor);
+  }
+}
